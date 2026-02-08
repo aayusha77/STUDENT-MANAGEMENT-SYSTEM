@@ -1,0 +1,115 @@
+{% extends "students/base.html" %}
+
+{% block content %}
+<style>
+    /* General Styling */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+
+    /* Navbar from base.html styling */
+    header, nav {
+        background-color: white;
+        padding: 20px 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 20px;
+        color: #333;
+        font-weight: 700;
+    }
+
+    header a, nav a {
+        color: #667eea;
+        text-decoration: none;
+        margin-left: 25px;
+        font-weight: 600;
+        transition: color 0.3s;
+    }
+
+    header a:hover, nav a:hover {
+        color: #764ba2;
+    }
+
+    /* Logout Container */
+    .logout-container {
+        background: white;
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    h1, h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 32px;
+    }
+
+    .logout-container p {
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 16px;
+    }
+
+    /* Button Styling */
+    button[type="submit"],
+    input[type="submit"],
+    .btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 14px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        margin: 10px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    button[type="submit"]:hover,
+    input[type="submit"]:hover,
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Links */
+    a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="logout-container">
+    <h1>Sign Out</h1>
+    
+    <p>Are you sure you want to sign out?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Sign Out</button>
+    </form>
+    
+    <a href="{% url 'account_login' %}" class="btn" style="background: #ccc;">Cancel</a>
+</div>
+{% endblock %}
