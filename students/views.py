@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages 
@@ -7,7 +6,8 @@ from .forms import StudentForm
 
 @login_required
 def student_list(request):
-    students = Student.objects.filter(created_by=request.user)
+    # Show all students to everyone
+    students = Student.objects.all()
     return render(request, 'students/student_list.html', {'students': students})
 
 @login_required
@@ -18,6 +18,7 @@ def create_student(request):
             student = form.save(commit=False)
             student.created_by = request.user
             student.save()
+            messages.success(request, "Student created successfully.")
             return redirect('student_list')
     else:
         form = StudentForm()
@@ -27,7 +28,8 @@ def create_student(request):
 def update_student(request, id):
     student = get_object_or_404(Student, id=id)
 
-    if student.created_by != request.user:
+    # Allow admins/staff OR the creator to edit
+    if not request.user.is_staff and student.created_by != request.user:
         messages.error(request, "You are not allowed to edit this student.")
         return redirect('student_list')
 
@@ -46,7 +48,8 @@ def update_student(request, id):
 def delete_student(request, id):
     student = get_object_or_404(Student, id=id)
 
-    if student.created_by != request.user:
+    # Allow admins/staff OR the creator to delete
+    if not request.user.is_staff and student.created_by != request.user:
         messages.error(request, "You are not allowed to delete this student.")
         return redirect('student_list')
 

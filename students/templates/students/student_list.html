@@ -24,12 +24,12 @@
                 <td>{{ student.first_name }} {{ student.last_name }}</td>
                 <td>{{ student.roll_number }}</td>
                 <td>
-                    {% if student.created_by == user %}
+                    {% if request.user.is_staff or student.created_by == request.user %}
                         <a href="{% url 'update_student' student.id %}" class="btn btn-warning btn-sm">Edit</a>
                         <a href="{% url 'delete_student' student.id %}" class="btn btn-danger btn-sm">Delete</a>
                     {% else %}
-                     
-                        -
+                        <button class="btn btn-secondary btn-sm" disabled style="opacity: 0.5; cursor: not-allowed;">Edit</button>
+                        <button class="btn btn-secondary btn-sm" disabled style="opacity: 0.5; cursor: not-allowed;">Delete</button>
                     {% endif %}
                 </td>
             </tr>
